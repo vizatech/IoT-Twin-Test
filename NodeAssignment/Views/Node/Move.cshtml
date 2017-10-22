@@ -1,0 +1,87 @@
+﻿@model  List<NodeAssignment.Models.MoveViewModels>
+
+
+@{
+    ViewBag.Title = "Move";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>IoT Hubs</h2>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Resource Group</th>
+                    <th>IoT Hub Name</th>
+                    <th>Gateways</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var hub in Model)
+                {
+                    <tr>
+                        <td>
+                            @hub.hub
+                        </td>
+                        <td>
+                            @hub.group
+                        </td>
+                        <td>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Connection state</th>
+                                        <th>Connection state updated time</th>
+                                        <th>Nodes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var device in hub.gateways)
+                                    {
+                                        <tr>
+                                            <td>@device.Id</td>
+                                            <td>@device.ConnectionState</td>
+                                            <td>@device.ConnectionStateUpdatedTime</td>
+                                            <td>
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>activation_type</th>
+                                                            <th>class_</th>
+                                                            <th>device_id</th>
+
+                                                            <th>dev_eui</th>
+                                                            <th>node_config_etc</th>
+                                                            <th>Move Sensor</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var sensorSlot in device.Nodes)
+                                                        {
+                                                            <tr>
+
+                                                                <td>@sensorSlot.Value.activation_type</td>
+                                                                <td>@sensorSlot.Value.class_</td>
+                                                                <td>@sensorSlot.Value.device_id</td>
+                                                                <td>@sensorSlot.Value.dev_eui</td>
+                                                                <td>@sensorSlot.Value.node_config_etc</td>
+                                                                <td>
+                                                                    @Html.ActionLink("Select slot", "CheckForUpdateTwin", new { TargetGateway = device.Id, TargetHub = hub.hub, TargetGroup = hub.group, TargetSlot = sensorSlot.Key, SourceGateway = ViewBag.gateway, SourceHub = ViewBag.hub, SourceGroup = ViewBag.group, SourceSlot = ViewBag.slot})</td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

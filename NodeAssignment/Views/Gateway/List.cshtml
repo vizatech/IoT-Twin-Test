@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Microsoft.Azure.Devices.Device>
+
+@{
+    ViewBag.Title = "List Gateways";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Gateways in IoT Hub @ViewBag.hub</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Connection state</th>
+                    <th>Connection state updated time</th>
+                    <th>Nodes</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var device in Model)
+                {
+                    <tr>
+                        <td>@device.Id</td>
+                        <td>@device.ConnectionState</td>
+                        <td>@device.ConnectionStateUpdatedTime</td>
+                        <td>@Html.ActionLink("List", "Index", "Node", new { gateway = @device.Id, hub = ViewBag.hub, group = ViewBag.group }, null)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

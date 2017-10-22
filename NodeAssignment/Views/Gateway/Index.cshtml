@@ -1,0 +1,42 @@
+﻿@model Dictionary<Microsoft.Azure.Management.ResourceManager.Fluent.IResourceGroup, List<string>>
+
+@{
+    ViewBag.Title = "IoT Hub Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>IoT Hubs</h2>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Resource Group</th>
+                    <th>IoT Hub Name</th>
+                    <th>Gateways</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var group in Model)
+                {
+                    <tr>
+                        <td rowspan="@group.Value.Count">
+                            @group.Key.Name
+                        </td>
+                        @foreach (var hub in group.Value)
+                        {
+                            <td>
+                                @hub
+                            </td>
+                            <td>
+                                @Html.ActionLink("List", "List", new { hub = hub, group = group.Key.Name })
+                            </td>
+                            <tr />
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

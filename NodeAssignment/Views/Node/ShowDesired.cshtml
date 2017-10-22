@@ -1,0 +1,37 @@
+﻿@model NodeAssignment.Models.DesiredNode
+
+@{
+    ViewBag.Title = "Desired node";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>ShowDesired</h2>
+
+<div class="col-md-12">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>activation_type</th>
+                <th>class_</th>
+                <th>device_id</th>
+
+                <th>dev_eui</th>
+                <th>node_config_etc</th>
+
+                <th>Move Sensor</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td>@Model.activation_type</td>
+                    <td>@Model.class_</td>
+                    <td>@Model.device_id</td>
+                    <td>@Model.dev_eui</td>
+                    <td>@Model.node_config_etc</td>
+
+                    <td>@Html.ActionLink("Move", "Move", "Node", new { sourceGateway = ViewBag.gateway, sourceHub = ViewBag.hub, sourceGroup = ViewBag.group, sourceSlot = ViewBag.slot }, null)</td>
+                </tr>
+        </tbody>
+    </table>
+</div>

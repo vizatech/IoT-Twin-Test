@@ -1,0 +1,41 @@
+﻿@model Dictionary<int, NodeAssignment.Models.ReportedNode>
+
+@{
+    ViewBag.Title = string.Format("Sensor nodes for gateway {0}", ViewBag.gateway);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Address</th>
+                    <th>Status</th>
+                    <th>RSSI</th>
+
+                    <th>#Sensors</th>
+                    <th>#Dropped packets</th>
+                    <th>Move Sensor</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var sensorSlot in Model)
+                {
+                    var MoveUriParams = new { sourceGateway = ViewBag.gateway, sourceHub = ViewBag.hub, sourceGroup = ViewBag.group, sourceSlot = sensorSlot.Key };
+                    <tr>
+                        <td>@sensorSlot.Value.addr</td>
+                        <td>@sensorSlot.Value.status</td>
+                        <td>@sensorSlot.Value.rssi</td>
+                        <td>@sensorSlot.Value.sensors</td>
+                        <td>@sensorSlot.Value.dropped_packets</td>
+                        <td>@Html.ActionLink("Show", "ShowDesired", "Node", new { gateway = ViewBag.gateway, hub = ViewBag.hub, group = ViewBag.group, slot = sensorSlot.Key }, null)</td>
+
+                        <td>@Html.ActionLink("Move", "Move", "Node", MoveUriParams, null)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
